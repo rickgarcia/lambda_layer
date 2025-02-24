@@ -16,6 +16,10 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Clone the model repository directly from Huggingface
+RUN mkdir -p /opt/ml/model && \
+    git clone https://huggingface.co/distilgpt2 /opt/ml/model/distilgpt2
+
 ADD /pii_data opt/data/pii_data
 
 # Copy function code
