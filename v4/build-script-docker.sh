@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Configuration
-IMAGE_NAME="lambda-pytorch-transformers-local"
+IMAGE_NAME="lambda-pytorch-transformers-local-pii"
 REGION="us-east-1"  # Change to your region
 ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 ECR_REPO="${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${IMAGE_NAME}"
-FUNCTION_NAME="lambda-pytorch-transformer-test"
+FUNCTION_NAME="lambda-pytorch-transformer-test-pii"
 
 echo "Building and deploying Lambda container image with preloaded model"
 echo "----------------------------------------------------------------"
