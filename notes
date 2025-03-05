@@ -1,0 +1,60 @@
+// Given information
+const teamSize = 12;
+const ptoWeeksPerPerson = 5;
+const weeksPerYear = 52;
+const sprintLength = 2; // weeks
+const sprintsPerYear = weeksPerYear / sprintLength; // 26 sprints per year
+
+// Calculate total PTO weeks for the team
+const totalPtoWeeks = teamSize * ptoWeeksPerPerson;
+console.log(`Total PTO weeks across the team in a year: ${totalPtoWeeks}`);
+
+// Calculate expected PTO weeks per sprint (uniformly distributed)
+const expectedPtoPerSprint = totalPtoWeeks / sprintsPerYear;
+console.log(`Expected PTO weeks per sprint (uniform distribution): ${expectedPtoPerSprint}`);
+
+// For a normal distribution, we need to consider how PTO might be spread
+// We'll assume the mean PTO per sprint is the same as the uniform expectation
+const meanPtoPerSprint = expectedPtoPerSprint;
+
+// For the standard deviation, we need to make an assumption
+// If PTO is normally distributed across the year, we can estimate the standard deviation
+// A reasonable assumption might be that 95% of sprints fall within ±50% of the mean
+// For a normal distribution, 95% falls within ±1.96 standard deviations
+
+// So if 1.96 * stdDev = 0.5 * mean, then:
+const stdDev = (0.5 * meanPtoPerSprint) / 1.96;
+console.log(`Estimated standard deviation for PTO per sprint: ${stdDev}`);
+
+// Calculate confidence intervals
+const ci90 = 1.645 * stdDev;
+const ci95 = 1.96 * stdDev;
+const ci99 = 2.576 * stdDev;
+
+console.log(`90% Confidence Interval: ${meanPtoPerSprint - ci90} to ${meanPtoPerSprint + ci90} weeks`);
+console.log(`95% Confidence Interval: ${meanPtoPerSprint - ci95} to ${meanPtoPerSprint + ci95} weeks`);
+console.log(`99% Confidence Interval: ${meanPtoPerSprint - ci99} to ${meanPtoPerSprint + ci99} weeks`);
+
+// Express in person-days per sprint (assuming 5 workdays per week)
+const meanPtoDaysPerSprint = meanPtoPerSprint * 5; // convert weeks to workdays
+console.log(`Expected PTO days per sprint: ${meanPtoDaysPerSprint}`);
+
+const ci90Days = ci90 * 5;
+const ci95Days = ci95 * 5;
+const ci99Days = ci99 * 5;
+
+console.log(`90% CI in workdays: ${meanPtoDaysPerSprint - ci90Days} to ${meanPtoDaysPerSprint + ci90Days} days`);
+console.log(`95% CI in workdays: ${meanPtoDaysPerSprint - ci95Days} to ${meanPtoDaysPerSprint + ci95Days} days`);
+console.log(`99% CI in workdays: ${meanPtoDaysPerSprint - ci99Days} to ${meanPtoDaysPerSprint + ci99Days} days`);
+Result
+
+Total PTO weeks across the team in a year: 60
+Expected PTO weeks per sprint (uniform distribution): 2.3076923076923075
+Estimated standard deviation for PTO per sprint: 0.5886970172684458
+90% Confidence Interval: 1.339285714285714 to 3.276098901098901 weeks
+95% Confidence Interval: 1.1538461538461537 to 3.4615384615384612 weeks
+99% Confidence Interval: 0.7912087912087911 to 3.824175824175824 weeks
+Expected PTO days per sprint: 11.538461538461537
+90% CI in workdays: 6.696428571428569 to 16.380494505494504 days
+95% CI in workdays: 5.769230769230768 to 17.307692307692307 days
+99% CI in workdays: 3.9560439560439544 to 19.120879120879117 days
